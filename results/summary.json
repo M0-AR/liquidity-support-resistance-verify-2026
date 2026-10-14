@@ -1,0 +1,99 @@
+{
+  "stamp_utc": "2026-10-14T10:34:49Z",
+  "symbol": "BTC-USD",
+  "venue": "coinbase",
+  "note": "Single-venue visible book; not consolidated market. Stops latent by design.",
+  "E01_wall": {
+    "buy_0.5BTC": {
+      "avg_px": 83320.58948062258,
+      "worst_px": 83323.18,
+      "levels_used": 11,
+      "unfilled": 0.0,
+      "slip_bps": 0.6900908196652272,
+      "consumed_pct_of_top100": 3.194396390873337
+    },
+    "buy_1.0BTC": {
+      "avg_px": 83322.99217018318,
+      "worst_px": 83326.14,
+      "levels_used": 22,
+      "unfilled": 0.0,
+      "slip_bps": 0.9784775657230712,
+      "consumed_pct_of_top100": 6.388792781746674
+    },
+    "buy_5.0BTC": {
+      "avg_px": 83332.0977002785,
+      "worst_px": 83337.0,
+      "levels_used": 43,
+      "unfilled": 0.0,
+      "slip_bps": 2.071383714893588,
+      "consumed_pct_of_top100": 31.94396390873337
+    },
+    "buy_10.0BTC": {
+      "avg_px": 83340.21269278102,
+      "worst_px": 83358.98,
+      "levels_used": 75,
+      "unfilled": 0.0,
+      "slip_bps": 3.045398968661562,
+      "consumed_pct_of_top100": 63.88792781746674
+    },
+    "top20_concentration_hhi": 0.15121724655964142,
+    "max_single_level_share_pct": 20.666926557674522,
+    "verdict": "PASS: visible wall is consumable; cost depends on depth, not on line"
+  },
+  "E02_dynamics": {
+    "polls": 3,
+    "gap_s": 6,
+    "changed_price_levels_between_polls": [
+      424,
+      289
+    ],
+    "verdict": "PASS: book mutates within seconds; return-quantity not guaranteed"
+  },
+  "E03_round": {
+    "n": 300,
+    "share_within_50_of_1000": 0.09666666666666666,
+    "uniform_null": 0.1,
+    "excess_vs_uniform_pp": -0.3333333333333341,
+    "verdict": "Clustering test executed; attention-hypothesis needs order data, chart alone insufficient (matches video caveat)."
+  },
+  "E04_bounce_break": {
+    "n_R_touches": 75,
+    "R_break_rate": 0.08,
+    "n_S_touches": 19,
+    "S_break_rate": 0.10526315789473684,
+    "verdict": "PASS: both bounce and break observed at same construction -> level is watch-zone, not barrier"
+  },
+  "E05_follow": {
+    "support_bounces": 5,
+    "with_3c_followthrough": 3,
+    "follow_rate": 0.6,
+    "verdict": "PASS: a halt candle alone under-determines rally; follow-through required (matches video)"
+  },
+  "E06_latent": {
+    "visible_bid_qty_top50": 5.62875053,
+    "visible_ask_qty_top50": 5.99965236,
+    "imbalance": -0.03189619705376412,
+    "n_upper_sweep_proxies": 19,
+    "verdict": "Stops are NOT in book snapshot (by market design); visible depth is partial (one venue). Sweep proxy listed for follow-up with full L2+trades."
+  },
+  "E07_definition": {
+    "n_breakouts": 6,
+    "success_close": 1.0,
+    "success_1pct": 0.0,
+    "success_hold3": 0.3333333333333333,
+    "verdict": "PASS: success rate is definition-dependent; pre-register rule (matches video)"
+  },
+  "E08_price_alone": {
+    "n_V_events": 1,
+    "fwd5_mean": 0.00018712364160974,
+    "fwd5_std": 0.0,
+    "share_positive": 1.0,
+    "verdict": "Sample small; logic holds structurally"
+  },
+  "HIDDEN_imbalance_snapshot": {
+    "bid_qty": 5.62875053,
+    "ask_qty": 5.99965236,
+    "imbalance": -0.03189619705376412,
+    "caveat": "Single snapshot cannot predict; included to PREVENT overclaim. Time-series imbalance->return test needs L2 replay (Binance Vision / Tardis) listed as next step."
+  }
+}
