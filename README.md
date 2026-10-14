@@ -4,9 +4,9 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg?style=flat-square)](src/run_all.py)
 [![Docker ready](https://img.shields.io/badge/Docker-ready-blue.svg?style=flat-square)](docker-compose.yml)
 [![Reproducible](https://img.shields.io/badge/reproducible-live_data-success.svg?style=flat-square)](results/summary.json)
-[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-preview.html-orange.svg?style=flat-square)](docs/preview.html)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-live_site-orange.svg?style=flat-square)](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/)
 
-> **Live interactive website:** after you push this repo to GitHub, enable **Settings → Pages → Deploy from branch → `main` → `/docs`** (or `/` if you move the file). Then open `https://<you>.github.io/<repo>/preview.html`. Full steps in [§4](#4-live-website--github-pages-2026).
+> **Live interactive website (click):** **https://m0-ar.github.io/liquidity-support-resistance-verify-2026/** · mirrors: [`/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/preview.html) · [`/docs/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/docs/preview.html) (all three resolve — see [§4](#4-live-website--github-pages-2026)). Local file: [`docs/preview.html`](docs/preview.html) · root mirror: [`preview.html`](preview.html).
 
 **One-line pitch:** an open-source, fully reproducible benchmark that proves — on **live public order-book data, no API keys** — that a drawn support/resistance line is not liquidity, only executable resting orders are.
 
@@ -86,9 +86,11 @@ Full recorder notes live in [`docs/DEMO.md`](docs/DEMO.md).
 
 ### Interactive demo (the website)
 
-[![Open preview](https://img.shields.io/badge/open-preview.html-ff69b4.svg?style=for-the-badge)](docs/preview.html)
+[![Open preview](https://img.shields.io/badge/open-live_site-ff69b4.svg?style=for-the-badge)](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/)
 
-`docs/preview.html` is a dependency-free static page: depth chart (SVG, from live numbers), walk-the-book slider, touch/break explorer, triple-definition switcher (100%/0%/33%), and a **10-question graded quiz** with explanations. Works from `file://`, works on GitHub Pages, no build step.
+Live: [`/`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/) · [`/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/preview.html) · [`/docs/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/docs/preview.html) · local: [`docs/preview.html`](docs/preview.html) · [`preview.html`](preview.html)
+
+`docs/preview.html` (canonical; mirrored at root `preview.html`) is a dependency-free static page: depth chart (SVG, from live numbers), walk-the-book slider, touch/break explorer, triple-definition switcher (100%/0%/33%), and a **10-question graded quiz** with explanations. Works from `file://`, works on GitHub Pages, no build step.
 
 ---
 
@@ -182,22 +184,34 @@ Someone draws a zone, says "old orders rested here unfilled, price must react." 
 
 ## 4. Live website / GitHub Pages 2026
 
-`docs/preview.html` is a **static, dependency-free** page (HTML+CSS+vanilla JS, no build, no keys). It embeds live-verified numbers, SVG depth art, a walk-the-book slider, and the graded quiz.
+The interactive site is a **static, dependency-free** page (HTML+CSS+vanilla JS, no build, no keys): depth SVG, walk-the-book slider, triple-definition switcher, graded quiz.
 
-**Deploy in 2 minutes (branch mode — the beginner path):**
+**Click (live):** [`/`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/) · [`/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/preview.html) · [`/docs/preview.html`](https://m0-ar.github.io/liquidity-support-resistance-verify-2026/docs/preview.html)
 
-1. Push this repo to GitHub (public recommended for free Pages).
-2. Open **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
-4. Branch: **`main`** (or `master`), folder: **`/docs`**. Save.
-5. Wait ~1–2 min. Open `https://<your-user>.github.io/<your-repo>/preview.html`.
-6. Optional: **Settings → Pages → Custom domain** + `CNAME` file for your domain; HTTPS is automatic.
+**Deploy (branch mode, 2 min):** **Settings → Pages → Build and deployment → Deploy from a branch → `main` → `/docs` → Save.** Wait 1–2 min, check the Actions "pages build and deployment" run, then open the three links above.
 
-**Why `/docs`?** Branch-mode Pages serves exactly what you commit — no Actions, no build minutes, instant rollback via git. The root README keeps pointing at `docs/preview.html` relatively, so local `file://` preview and Pages URL both work.
+**Why all three resolve:** canonical file `docs/preview.html` (+ `docs/index.html` redirect) serves under source `/docs` at `/` and `/preview.html`; root mirrors `preview.html` (= `docs/preview.html` with `../results`→`results`, `../paper`→`paper` only) + `index.html` (redirect + fallback table) serve under source `/` at `/`, `/preview.html`, `/docs/preview.html`. `.nojekyll` sits in both `/` and `/docs`. Recommended setting is `/docs`; mirrors make the choice non-fatal.
 
-**Troubleshooting:** 404 → wait 2 min + check branch/folder + file is named exactly `preview.html` inside `docs/`. Stale page → hard-refresh (Pages edge cache ~minutes). Mixed-content → keep everything relative, no `http://` assets. Custom domain → add `CNAME`, set DNS CNAME to `<user>.github.io`, enforce HTTPS.
+**Diagnose in 10 s (three probes):**
 
-**Local preview (no deploy):** just double-click `docs/preview.html`, or `python3 -m http.server -d docs 8000` → `http://localhost:8000/preview.html`.
+```bash
+BASE="https://m0-ar.github.io/liquidity-support-resistance-verify-2026"
+for p in "" "preview.html" "docs/preview.html"; do
+  printf "%s -> " "/$p"
+  curl -s -o /dev/null -w "%{http_code}\n" "$BASE/$p"
+done
+```
+
+| `/` | `/preview.html` | `/docs/preview.html` | Meaning |
+|---|---|---|---|
+| 200 | 200 | 404 | source = `/docs` ✅ |
+| 200 | 404 | 200 | source = `/` (root); file only under `/docs` |
+| 404 | 404 | 404 | Pages off / still building / wrong branch |
+| 200 | 404 | 404 | source = `/`, entry/file missing |
+
+**Troubleshooting:** 404 → wait 2 min + confirm branch/folder + re-run probes after the Actions Pages run. Stale page → hard-refresh (edge cache ~minutes). Assets are relative (`../results` from `/docs`, `results` from root) so project Pages (`/<repo>/`) works; never use absolute `/assets` or local `/home/…` paths. Custom domain → `CNAME` + DNS CNAME to `<user>.github.io`, enforce HTTPS.
+
+**Local preview (no deploy):** double-click `docs/preview.html`, or `python3 -m http.server -d docs 8000` → `http://localhost:8000/preview.html`.
 
 ---
 
